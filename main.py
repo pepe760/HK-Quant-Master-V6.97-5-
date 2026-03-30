@@ -1,4 +1,4 @@
-#@title HK Quant Master V6.98 (GitHub Pages 首頁自動生成版)
+#@title HK Quant Master V7.0 (GitHub Pages 首頁自動生成版)
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -179,7 +179,7 @@ def clean_nans(obj):
         if pd.isna(obj) or math.isnan(obj) or np.isnan(obj) or np.isinf(obj): return None
     return obj
 
-print("⏳ 3/4 啟動 5年期 雙引擎動態回溯 (套用 V6.8 終極濾網與 20天強制出場)...")
+print("⏳ 3/4 啟動 5年期 雙引擎動態回溯 (套用 V7.0 時間停損與 VCP 濾網)...")
 
 lookback_bars = 252 * 5 
 start_idx = len(closes) - lookback_bars
@@ -205,6 +205,9 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
 
     tickers_to_remove = []
     
+    # ==========================================
+    # 1. 結算與出場邏輯 (Exit Logic)
+    # ==========================================
     for ticker, trade in active_trades.items():
         trade['Bars_Held'] += 1
         h = highs[ticker].iloc[i]
@@ -216,6 +219,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
             
         is_closed = False
         
+        # 📌 全局止盈 (TP)
         if h >= trade['TP']:
             trade['Exit_Date'] = date_str
             trade['Exit_Idx'] = i
@@ -230,46 +234,52 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
             is_closed = True
             continue
             
-        if trade['Type'] == "海龜突破 (順勢)":
-            if trade.get('Pool') == "動能池":
-                if not pd.isna(cur_ma20) and c < cur_ma20:
-                    trade['Exit_Date'] = date_str
-                    trade['Exit_Idx'] = i
-                    trade['Exit_Price'] = c
-                    trade['Status'] = 'Loss'
-                    trade['Exit_Reason'] = 'MA20_SL'
-                    trade['PnL_%'] = round(((c - trade['Entry_Price']) / trade['Entry_Price']) * 100, 2)
-                    trade['Hold_Days'] = (current_date - pd.to_datetime(trade['Entry_Date'])).days
-                    completed_trades.append(trade)
-                    pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
-                    tickers_to_remove.append(ticker)
-                    is_closed = True
-                elif l <= trade['SL']:
-                    trade['Exit_Date'] = date_str
-                    trade['Exit_Idx'] = i
-                    trade['Exit_Price'] = trade['SL']
-                    trade['Status'] = 'Loss'
-                    trade['Exit_Reason'] = 'SL'
-                    trade['PnL_%'] = round(((trade['SL'] - trade['Entry_Price']) / trade['Entry_Price']) * 100, 2)
-                    trade['Hold_Days'] = (current_date - pd.to_datetime(trade['Entry_Date'])).days
-                    completed_trades.append(trade)
-                    pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
-                    tickers_to_remove.append(ticker)
-                    is_closed = True
-            else:
-                if l <= trade['SL']:
-                    trade['Exit_Date'] = date_str
-                    trade['Exit_Idx'] = i
-                    trade['Exit_Price'] = trade['SL']
-                    trade['Status'] = 'Loss'
-                    trade['Exit_Reason'] = 'SL'
-                    trade['PnL_%'] = round(((trade['SL'] - trade['Entry_Price']) / trade['Entry_Price']) * 100, 2)
-                    trade['Hold_Days'] = (current_date - pd.to_datetime(trade['Entry_Date'])).days
-                    completed_trades.append(trade)
-                    pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
-                    tickers_to_remove.append(ticker)
-                    is_closed = True
+        # 🟢 V7.0 海龜突破 (VCP 優化) 出場邏輯
+        if trade['Type'] == "海龜突破 (VCP 優化)":
+            
+            # 🛑 1. 七日時間停損 (防死魚機制)
+            if trade['Bars_Held'] >= 7 and c <= trade['Entry_Price']:
+                trade['Exit_Date'] = date_str
+                trade['Exit_Idx'] = i
+                trade['Exit_Price'] = c
+                trade['Status'] = 'Loss'
+                trade['Exit_Reason'] = 'Time_SL'
+                trade['PnL_%'] = round(((c - trade['Entry_Price']) / trade['Entry_Price']) * 100, 2)
+                trade['Hold_Days'] = (current_date - pd.to_datetime(trade['Entry_Date'])).days
+                completed_trades.append(trade)
+                pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
+                tickers_to_remove.append(ticker)
+                is_closed = True
+                
+            # 🛑 2. MA20 動態停損 (跌破 20日均線)
+            elif not pd.isna(cur_ma20) and c < cur_ma20:
+                trade['Exit_Date'] = date_str
+                trade['Exit_Idx'] = i
+                trade['Exit_Price'] = c
+                trade['Status'] = 'Loss' if c < trade['Entry_Price'] else 'Win'
+                trade['Exit_Reason'] = 'MA20_SL'
+                trade['PnL_%'] = round(((c - trade['Entry_Price']) / trade['Entry_Price']) * 100, 2)
+                trade['Hold_Days'] = (current_date - pd.to_datetime(trade['Entry_Date'])).days
+                completed_trades.append(trade)
+                pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
+                tickers_to_remove.append(ticker)
+                is_closed = True
+                
+            # 🛑 3. 7% 實體硬止損 (Hard SL)
+            elif l <= trade['SL']:
+                trade['Exit_Date'] = date_str
+                trade['Exit_Idx'] = i
+                trade['Exit_Price'] = trade['SL']
+                trade['Status'] = 'Loss'
+                trade['Exit_Reason'] = 'SL'
+                trade['PnL_%'] = round(((trade['SL'] - trade['Entry_Price']) / trade['Entry_Price']) * 100, 2)
+                trade['Hold_Days'] = (current_date - pd.to_datetime(trade['Entry_Date'])).days
+                completed_trades.append(trade)
+                pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
+                tickers_to_remove.append(ticker)
+                is_closed = True
                     
+        # 🔴 RSI 超跌抄底 (逆勢) 出場邏輯 (保留原版設定)
         elif trade['Type'] == "RSI 超跌抄底 (逆勢)":
             if l <= trade['SL']:
                 trade['Exit_Date'] = date_str
@@ -312,6 +322,9 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
 
     if cur_breadth > 60: continue 
 
+    # ==========================================
+    # 2. 進場邏輯 (Entry Logic)
+    # ==========================================
     for ticker in closes.columns:
         if ticker in active_trades: continue
         c = closes[ticker].iloc[i]
@@ -326,17 +339,20 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
         cur_vol = volatility_60d[ticker].iloc[i]
         if pd.isna(cur_vol): cur_vol = 0.50
 
+        # 🟢 V7.0 順勢引擎: 海龜突破 + VCP 收縮濾網
         if is_bull:
-            if cur_vix < 15 and cur_breadth >= 40:
+            if cur_vol < 0.35: # 🌟 核心變更：強制要求 VCP 波動收縮
                 dh = donchian_high_all[ticker].iloc[i]
                 c_200ma = stock_200ma[ticker].iloc[i]
                 if not pd.isna(dh) and c > dh and not pd.isna(c_200ma) and c > c_200ma:
                     fin = get_fundamentals(ticker)
                     if fin['earn_growth_val'] >= 0:
-                        signal_type = "海龜突破 (順勢)"
-                        trade_pool = "震盪池" if cur_vol < 0.35 else "動能池"
-                        sl_price = c * 0.90 if trade_pool == "震盪池" else c * 0.85 
-                        tp_price = c * 1.30
+                        signal_type = "海龜突破 (VCP 優化)"
+                        trade_pool = "VCP 震盪池"
+                        sl_price = c * 0.93  # 🌟 緊縮停損：-7% 
+                        tp_price = c * 1.30  # 🌟 停利目標：+30%
+
+        # 🔴 RSI 抄底逆勢保留
         else:
             if cur_vix <= 35:
                 rsi_val = rsi_all[ticker].iloc[i]
@@ -395,10 +411,10 @@ if not pnl_df.empty:
     pnl_df = pnl_df.sort_values('Date').reset_index(drop=True)
     pnl_df['Cum_Total'] = pnl_df['PnL'].cumsum()
     
-    t_df = pnl_df[pnl_df['Type'] == '海龜突破 (順勢)'].copy()
+    t_df = pnl_df[pnl_df['Type'].str.contains('海龜突破')].copy()
     t_df['Cum_Turtle'] = t_df['PnL'].cumsum()
     
-    r_df = pnl_df[pnl_df['Type'] == 'RSI 超跌抄底 (逆勢)'].copy()
+    r_df = pnl_df[pnl_df['Type'].str.contains('RSI 超跌抄底')].copy()
     r_df['Cum_RSI'] = r_df['PnL'].cumsum()
     
     unique_dates = sorted(pnl_df['Date'].unique())
@@ -514,7 +530,7 @@ for row in all_5y_trades:
         status_badge = f'<span class="px-2 py-1 bg-{clr}-900/50 text-{clr}-400 border border-{clr}-700 rounded text-xs font-bold" title="達到最大持有天數">20D Exit</span>{exit_date_str}'
     elif row['Status'] == 'Loss':
         if row.get('Exit_Reason') == 'Time_SL':
-            status_badge = f'<span class="px-2 py-1 bg-orange-900/50 text-orange-400 border border-orange-700 rounded text-xs font-bold" title="10日未獲利停損">Time SL</span>{exit_date_str}'
+            status_badge = f'<span class="px-2 py-1 bg-orange-900/50 text-orange-400 border border-orange-700 rounded text-xs font-bold" title="時間停損機制">Time SL</span>{exit_date_str}'
         elif row.get('Exit_Reason') == 'MA20_SL':
             status_badge = f'<span class="px-2 py-1 bg-purple-900/50 text-purple-400 border border-purple-700 rounded text-xs font-bold" title="跌破 MA20 動態停損">MA20 SL</span>{exit_date_str}'
         else:
@@ -576,7 +592,7 @@ html_content = f"""
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>HK Quant Master V6.98 - 每日一篇教66歲丫媽學投資</title>
+    <title>HK Quant Master V7.0 - 每日一篇教66歲丫媽學投資</title>
     <style>
         body {{ background-color: #0f172a; color: #e2e8f0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }}
         .card {{ background-color: #1e293b; border: 1px solid #334155; border-radius: 12px; }}
@@ -599,8 +615,8 @@ html_content = f"""
 
         <div class="card p-6 mb-6 flex flex-col md:flex-row justify-between items-center shadow-lg border-b-4 border-blue-500">
             <div>
-                <h1 class="text-3xl font-black text-white mb-2">HK Quant Master V6.98 <span class="text-blue-500">數據透視升級版</span></h1>
-                <p class="text-slate-400 text-sm">支援月份獨立過濾 | 5年系統資金曲線 | 即時活躍損益試算 | RSI 終極濾網</p>
+                <h1 class="text-3xl font-black text-white mb-2">HK Quant Master V7.0 <span class="text-blue-500">VCP 防死魚優化版</span></h1>
+                <p class="text-slate-400 text-sm">支援月份獨立過濾 | 5年系統資金曲線 | 即時活躍損益試算 | VCP 波動收縮濾網</p>
             </div>
             <div class="mt-4 md:mt-0 text-right bg-slate-900 p-4 rounded-lg border border-slate-700">
                 <p class="text-xs text-slate-400 mb-1">大盤狀態</p>
@@ -693,7 +709,7 @@ html_content += f"""
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div class="card p-4 border-l-4 border-green-500 shadow relative">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold text-white">🐢 海龜突破 (順勢)</h3>
+                        <h3 class="text-lg font-bold text-white">🐢 海龜突破 (VCP 優化版)</h3>
                         <div class="text-right">
                             <span class="text-slate-400 block text-xs">累積淨損益 (複利)</span>
                             <span class="font-black text-xl {'text-green-400' if turtle_pnl >= 0 else 'text-red-400'}">{'+' if turtle_pnl > 0 else ''}{turtle_pnl:.2f}%</span>
@@ -704,14 +720,14 @@ html_content += f"""
                     <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3 border-t border-slate-700 pt-3">
                         <div><span class="text-slate-400 block mb-1">達標 (Win)</span><span class="font-bold text-green-400">{t_win_rate:.1f}%</span></div>
                         <div><span class="text-slate-400 block mb-1">MA20 停損</span><span class="font-bold text-purple-400">{t_ma20_rate:.1f}%</span></div>
-                        <div><span class="text-slate-400 block mb-1">20天極限</span><span class="font-bold text-orange-400">{t_time_rate:.1f}%</span></div>
-                        <div><span class="text-slate-400 block mb-1">硬止損 (Lose)</span><span class="font-bold text-red-400">{t_sl_rate:.1f}%</span></div>
+                        <div><span class="text-slate-400 block mb-1">7日防死魚極限</span><span class="font-bold text-orange-400">{t_time_rate:.1f}%</span></div>
+                        <div><span class="text-slate-400 block mb-1">7% 硬止損</span><span class="font-bold text-red-400">{t_sl_rate:.1f}%</span></div>
                     </div>
                 </div>
                 
                 <div class="card p-4 border-l-4 border-red-500 shadow relative">
                     <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-lg font-bold text-white">📉 RSI 抄底 (V6.8 終極版)</h3>
+                        <h3 class="text-lg font-bold text-white">📉 RSI 抄底 (逆勢版)</h3>
                         <div class="text-right">
                             <span class="text-slate-400 block text-xs">累積淨損益 (複利)</span>
                             <span class="font-black text-xl {'text-green-400' if rsi_pnl >= 0 else 'text-red-400'}">{'+' if rsi_pnl > 0 else ''}{rsi_pnl:.2f}%</span>
@@ -771,8 +787,8 @@ html_content += f"""
                         </select>
                         <select id="filterStrategy" onchange="filterTable()" class="bg-slate-900 text-slate-300 p-2 border border-slate-600 rounded text-sm focus:outline-none focus:border-blue-500">
                             <option value="">所有策略</option>
-                            <option value="順勢">🐢 海龜突破 (順勢)</option>
-                            <option value="逆勢">📉 RSI 抄底 (逆勢)</option>
+                            <option value="海龜">🐢 海龜突破 (順勢)</option>
+                            <option value="RSI">📉 RSI 抄底 (逆勢)</option>
                         </select>
                         <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="🔍 搜尋..." class="bg-slate-900 text-white p-2 border border-slate-600 rounded text-sm w-32 focus:outline-none focus:border-blue-500">
                     </div>
@@ -830,16 +846,13 @@ html_content += f"""
         </div>
 
         <div id="tab-manual" class="tab-content hidden card p-8 leading-relaxed">
-            <h2 class="text-2xl font-bold text-blue-400 mb-4 border-b border-slate-700 pb-2">📖 V6.98 系統說明書 (User Manual)</h2>
-            <h3 class="text-lg font-bold text-white mt-6 mb-2">1. 獨立月份過濾與 PnL 結算 (V6.98 新增)</h3>
+            <h2 class="text-2xl font-bold text-blue-400 mb-4 border-b border-slate-700 pb-2">📖 V7.0 系統說明書 (User Manual)</h2>
+            <h3 class="text-lg font-bold text-white mt-6 mb-2">1. VCP 波動收縮濾網與 7日防死魚停損 (V7.0 新增)</h3>
+            <p class="text-slate-300 mb-4">海龜順勢引擎已升級。現在嚴格要求 <b>60日歷史波動率 < 0.35</b> (確保股價在爆發前處於 VCP 壓縮狀態)，且實體停損縮緊至 <b>-7%</b>。若股價在進場後 <b>7天內未脫離成本區</b>，系統會無條件以 Time SL (時間停損) 釋放資金。</p>
+            <h3 class="text-lg font-bold text-white mt-6 mb-2">2. 獨立月份過濾與 PnL 結算</h3>
             <p class="text-slate-300 mb-4">在「近 5 年歷史覆盤」頁籤中，你可以使用上方的 <b>📆 所有月份</b> 下拉選單。當你指定某個月份後，系統不僅會過濾出該月觸發的交易，還會自動在上方彈出「獨立統計面板」，幫你計算出該區間的總複利淨利！</p>
-            <h3 class="text-lg font-bold text-white mt-6 mb-2">2. 鍵盤看盤與動態線圖</h3>
+            <h3 class="text-lg font-bold text-white mt-6 mb-2">3. 鍵盤看盤與動態線圖</h3>
             <p class="text-slate-300 mb-4">點擊「歷史覆盤」中的任意一筆交易，接著直接使用鍵盤的 <strong class="text-yellow-400">上下鍵 (↑ ↓) 或 左右鍵 (← →)</strong>。圖表會牢牢釘在螢幕上半部，讓你一邊往下滾動表格，一邊看著上方 1.5 年的 K 線走勢極速覆盤！</p>
-            <h3 class="text-lg font-bold text-white mt-6 mb-2">3. RSI 時間停損與「20天防死魚」極限</h3>
-            <ul class="list-disc pl-6 text-slate-300 mb-4 space-y-2">
-                <li><strong class="text-orange-400">第 10 天弱勢檢驗：</strong> 進場後第 10 天收盤價若低於進場價，判定看錯，以 <b>Time SL</b> 微幅虧損平倉。</li>
-                <li><strong class="text-yellow-400">第 20 天絕對極限：</strong> 若熬到第 20 天未達標，系統強制收回資金 (<b>20D Exit</b>)，解放資金流動性。</li>
-            </ul>
         </div>
 
     </div>
@@ -901,7 +914,7 @@ html_content += f"""
             let input = document.getElementById("searchInput").value.toUpperCase();
             let statusFilter = document.getElementById("filterStatus").value;
             let stratFilter = document.getElementById("filterStrategy").value;
-            let monthFilter = document.getElementById("filterMonth").value; // Req 3: 新增月份過濾
+            let monthFilter = document.getElementById("filterMonth").value;
             
             let tr = document.getElementById("logTableBody").getElementsByTagName("tr");
             
@@ -922,7 +935,6 @@ html_content += f"""
                 
                 if (matchSearch && matchStatus && matchStrat && matchMonth) {{
                     tr[i].style.display = "";
-                    // 計算獨立期間損益 (只計算已平倉)
                     if(rowStatus.includes('Win') || rowStatus.includes('Loss') || rowStatus.includes('Exit') || rowStatus.includes('SL')) {{
                         let pnlVal = parseFloat(tr[i].cells[9].getAttribute('data-pnl')) || 0;
                         visiblePnL *= (1 + (pnlVal / 100));
@@ -933,7 +945,6 @@ html_content += f"""
                 }}
             }}
             
-            // Req 3: 顯示動態 PnL 面板
             let panel = document.getElementById('filteredSummaryPanel');
             if (isFiltering && closedCount > 0) {{
                 panel.classList.remove('hidden');
@@ -1176,7 +1187,7 @@ html_content += f"""
 </html>
 """
 
-filename = f"HK_Regime_Dashboard_V6_98_{datetime.datetime.now().strftime('%Y%m%d')}.html"
+filename = f"HK_Regime_Dashboard_V7_0_{datetime.datetime.now().strftime('%Y%m%d')}.html"
 with open(filename, 'w', encoding='utf-8') as f:
     f.write(html_content)
 
@@ -1184,7 +1195,7 @@ with open(filename, 'w', encoding='utf-8') as f:
 with open("index.html", 'w', encoding='utf-8') as f:
     f.write(html_content)
 
-print(f"🎉 成功！生成 HK Quant Master V6.98 (全功能與數據透視版)：{filename} 及 index.html")
+print(f"🎉 成功！生成 HK Quant Master V7.0 (VCP 防死魚優化版)：{filename} 及 index.html")
 try:
     from google.colab import files
     files.download(filename)
