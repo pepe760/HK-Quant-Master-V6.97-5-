@@ -34,7 +34,7 @@ jobs:
       - name: Run script
         run: python main.py
 
-- name: Commit and Push
+      - name: Commit and Push
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
