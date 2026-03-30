@@ -1118,6 +1118,9 @@ html_content += f"""
 filename = "index.html"
 with open(filename, 'w', encoding='utf-8') as f:
     f.write(html_content)
+# 加入這兩行！直接讓 Python 生出 index.html 首頁
+with open("index.html", 'w', encoding='utf-8') as f:
+    f.write(html_content)
 
 print(f"🎉 成功！生成 HK Quant Master V6.97 (表格對齊修復版)：{filename}")
 try:
