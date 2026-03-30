@@ -594,9 +594,13 @@ html_content = f"""
         </a>
 
         <div class="card p-6 mb-6 flex flex-col md:flex-row justify-between items-center shadow-lg border-b-4 border-blue-500">
-            <div>
+              <div>
                 <h1 class="text-3xl font-black text-white mb-2">HK Quant Master V6.95 <span class="text-blue-500">終極全功能版</span></h1>
                 <p class="text-slate-400 text-sm">支援上下左右鍵快速切圖 | 5年系統資金曲線 | 20天強制防死魚 | RSI 神級濾網</p>
+                <div class="mt-3 flex items-center space-x-2">
+                    <span class="text-xs text-slate-500 font-bold">累積瀏覽次數：</span>
+                    <img src="https://profile-counter.glitch.me/hk-quant-master-YOURNAME/count.svg" alt="Visit Count">
+              </div>
             </div>
             <div class="mt-4 md:mt-0 text-right bg-slate-900 p-4 rounded-lg border border-slate-700">
                 <p class="text-xs text-slate-400 mb-1">大盤狀態</p>
