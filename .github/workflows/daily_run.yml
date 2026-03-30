@@ -5,6 +5,14 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
+# 消除 Node.js 20 升級警告
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# 賦予機器人寫入檔案的權限 (解決 Error 128)
+permissions:
+  contents: write
+
 jobs:
   run-bot:
     runs-on: ubuntu-latest
