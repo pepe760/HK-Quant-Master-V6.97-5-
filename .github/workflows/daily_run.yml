@@ -36,6 +36,8 @@ jobs:
 
       - name: Commit and Push
         run: |
+          # 找出最新生成的 HTML，複製一份命名為 index.html 當作網站首頁
+          cp $(ls -t *.html | head -1) index.html
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add *.html
