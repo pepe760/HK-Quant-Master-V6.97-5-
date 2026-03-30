@@ -34,9 +34,8 @@ jobs:
       - name: Run script
         run: python main.py
 
-      - name: Commit and Push
+- name: Commit and Push
         run: |
-          cp $(ls -t HK_*.html | head -1) index.html
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add *.html
