@@ -14,7 +14,7 @@ warnings.filterwarnings('ignore')
 # ==============================================================================
 # 1. 設定觀察名單、參數與中文名稱對照表
 # ==============================================================================
-START_DATE = "2020-01-01" 
+START_DATE = "2020-01-01"
 END_DATE = datetime.datetime.now().strftime('%Y-%m-%d')
 
 WATCHLIST = [
@@ -42,51 +42,51 @@ WATCHLIST = [
 WATCHLIST = list(set(WATCHLIST))
 
 HK_STOCK_NAMES = {
-    '0001.HK': '長和', '0002.HK': '中電控股', '0003.HK': '香港中華煤氣', '0005.HK': '匯豐控股', '0006.HK': '電能實業', 
+    '0001.HK': '長和', '0002.HK': '中電控股', '0003.HK': '香港中華煤氣', '0005.HK': '匯豐控股', '0006.HK': '電能實業',
     '0011.HK': '恒生銀行', '0012.HK': '恆基地產', '0016.HK': '新鴻基地產', '0017.HK': '新世界發展', '0020.HK': '商汤-W',
-    '0027.HK': '銀河娛樂', '0066.HK': '港鐵公司', '0083.HK': '信和置業', '0101.HK': '恒隆地產', '0119.HK': '保利置業集團', 
+    '0027.HK': '銀河娛樂', '0066.HK': '港鐵公司', '0083.HK': '信和置業', '0101.HK': '恒隆地產', '0119.HK': '保利置業集團',
     '0135.HK': '昆侖能源', '0144.HK': '招商局港口', '0151.HK': '中國旺旺', '0168.HK': '青島啤酒股份', '0175.HK': '吉利汽車',
-    '0200.HK': '新濠國際發展', '0241.HK': '阿里健康', '0256.HK': '冠城鐘錶珠寶', '0267.HK': '中信股份', '0268.HK': '金蝶國際', 
+    '0200.HK': '新濠國際發展', '0241.HK': '阿里健康', '0256.HK': '冠城鐘錶珠寶', '0267.HK': '中信股份', '0268.HK': '金蝶國際',
     '0270.HK': '粵海投資', '0272.HK': '瑞安房地產', '0285.HK': '比亞迪電子', '0288.HK': '萬洲國際', '0291.HK': '華潤啤酒',
-    '0316.HK': '東方海外國際', '0322.HK': '康師傅控股', '0336.HK': '華寶國際', '0345.HK': '維他奶國際', '0354.HK': '中國軟件國際', 
+    '0316.HK': '東方海外國際', '0322.HK': '康師傅控股', '0336.HK': '華寶國際', '0345.HK': '維他奶國際', '0354.HK': '中國軟件國際',
     '0358.HK': '江西銅業股份', '0386.HK': '中國石油化工股份', '0388.HK': '香港交易所', '0390.HK': '中國中鐵', '0460.HK': '四環醫藥',
-    '0520.HK': '呷哺呷哺', '0522.HK': 'ASMPT', '0552.HK': '中國通信服務', '0576.HK': '浙江滬杭甬', '0586.HK': '海螺創業', 
+    '0520.HK': '呷哺呷哺', '0522.HK': 'ASMPT', '0552.HK': '中國通信服務', '0576.HK': '浙江滬杭甬', '0586.HK': '海螺創業',
     '0598.HK': '中國外運', '0604.HK': '深圳控股', '0656.HK': '復星國際', '0669.HK': '創科實業', '0688.HK': '中國海外發展',
-    '0700.HK': '騰訊控股', '0728.HK': '中國電信', '0753.HK': '中國國航', '0762.HK': '中國聯通', '0772.HK': '閱文集團', 
+    '0700.HK': '騰訊控股', '0728.HK': '中國電信', '0753.HK': '中國國航', '0762.HK': '中國聯通', '0772.HK': '閱文集團',
     '0778.HK': '置富產業信託', '0780.HK': '同程旅行', '0813.HK': '世茂集團', '0823.HK': '領展房產基金', '0836.HK': '華潤電力',
-    '0853.HK': '微創醫療', '0857.HK': '中國石油股份', '0861.HK': '神州控股', '0868.HK': '信義玻璃', '0883.HK': '中國海洋石油', 
+    '0853.HK': '微創醫療', '0857.HK': '中國石油股份', '0861.HK': '神州控股', '0868.HK': '信義玻璃', '0883.HK': '中國海洋石油',
     '0902.HK': '華能國際電力', '0909.HK': '明源雲', '0914.HK': '海螺水泥', '0916.HK': '龍源電力', '0934.HK': '中石化冠德',
-    '0939.HK': '建設銀行', '0941.HK': '中國移動', '0960.HK': '龍湖集團', '0968.HK': '信義光能', '0981.HK': '中芯國際', 
+    '0939.HK': '建設銀行', '0941.HK': '中國移動', '0960.HK': '龍湖集團', '0968.HK': '信義光能', '0981.HK': '中芯國際',
     '0992.HK': '聯想集團', '0998.HK': '中信銀行', '1024.HK': '快手-W', '1030.HK': '新城發展', '1038.HK': '長江基建集團',
-    '1044.HK': '恒安國際', '1055.HK': '中國南方航空', '1066.HK': '威高股份', '1071.HK': '華電國際電力', '1088.HK': '中國神華', 
+    '1044.HK': '恒安國際', '1055.HK': '中國南方航空', '1066.HK': '威高股份', '1071.HK': '華電國際電力', '1088.HK': '中國神華',
     '1093.HK': '石藥集團', '1099.HK': '國藥控股', '1109.HK': '華潤置地', '1113.HK': '長實集團', '1119.HK': '創夢天地',
-    '1138.HK': '中遠海能', '1157.HK': '中聯重科', '1177.HK': '中國生物製藥', '1193.HK': '華潤燃氣', '1209.HK': '華潤萬象生活', 
+    '1138.HK': '中遠海能', '1157.HK': '中聯重科', '1177.HK': '中國生物製藥', '1193.HK': '華潤燃氣', '1209.HK': '華潤萬象生活',
     '1211.HK': '比亞迪股份', '1258.HK': '中國有色礦業', '1299.HK': '友邦保險', '1308.HK': '海豐國際', '1313.HK': '華潤建材科技',
-    '1316.HK': '耐世特', '1336.HK': '新華保險', '1339.HK': '中國人民保險', '1347.HK': '華虹半導體', '1368.HK': '特步國際', 
+    '1316.HK': '耐世特', '1336.HK': '新華保險', '1339.HK': '中國人民保險', '1347.HK': '華虹半導體', '1368.HK': '特步國際',
     '1378.HK': '中國宏橋', '1398.HK': '工商銀行', '1516.HK': '融創服務', '1530.HK': '三生製藥', '1658.HK': '郵儲銀行',
-    '1772.HK': '贛鋒鋰業', '1787.HK': '山東黃金', '1801.HK': '信達生物', '1810.HK': '小米集團-W', '1818.HK': '招金礦業', 
+    '1772.HK': '贛鋒鋰業', '1787.HK': '山東黃金', '1801.HK': '信達生物', '1810.HK': '小米集團-W', '1818.HK': '招金礦業',
     '1833.HK': '平安好醫生', '1876.HK': '百威亞太', '1898.HK': '中煤能源', '1919.HK': '中遠海控', '1928.HK': '金沙中國',
-    '1929.HK': '周大福', '1997.HK': '九龍倉置業', '2005.HK': '聯邦制藥', '2007.HK': '碧桂園', '2013.HK': '微盟集團', 
+    '1929.HK': '周大福', '1997.HK': '九龍倉置業', '2005.HK': '聯邦制藥', '2007.HK': '碧桂園', '2013.HK': '微盟集團',
     '2015.HK': '理想汽車-W', '2018.HK': '瑞聲科技', '2020.HK': '安踏體育', '2186.HK': '綠葉製藥', '2192.HK': '醫渡科技',
-    '2202.HK': '萬科企業', '2238.HK': '廣汽集團', '2269.HK': '藥明生物', '2313.HK': '申洲國際', '2318.HK': '中國平安', 
+    '2202.HK': '萬科企業', '2238.HK': '廣汽集團', '2269.HK': '藥明生物', '2313.HK': '申洲國際', '2318.HK': '中國平安',
     '2319.HK': '蒙牛乳業', '2331.HK': '李寧', '2333.HK': '長城汽車', '2359.HK': '藥明康德', '2380.HK': '中國電力',
-    '2388.HK': '中銀香港', '2600.HK': '中國鋁業', '2618.HK': '京東物流', '2628.HK': '中國人壽', '2669.HK': '中海物業', 
+    '2388.HK': '中銀香港', '2600.HK': '中國鋁業', '2618.HK': '京東物流', '2628.HK': '中國人壽', '2669.HK': '中海物業',
     '2688.HK': '新奧能源', '2689.HK': '玖龍紙業', '2727.HK': '上海電氣', '2858.HK': '易鑫集團', '2866.HK': '中遠海發',
-    '2869.HK': '綠城服務', '2877.HK': '神威藥業', '2883.HK': '中海油田服務', '2899.HK': '紫金礦業', '3311.HK': '中國建築國際', 
+    '2869.HK': '綠城服務', '2877.HK': '神威藥業', '2883.HK': '中海油田服務', '2899.HK': '紫金礦業', '3311.HK': '中國建築國際',
     '3319.HK': '雅生活服務', '3323.HK': '中國建材', '3328.HK': '交通銀行', '3331.HK': '維達國際', '3606.HK': '福耀玻璃',
-    '3618.HK': '重慶農村商業銀行', '3633.HK': '中裕能源', '3690.HK': '美團-W', '3692.HK': '翰森製藥', '3738.HK': '阜博集團', 
+    '3618.HK': '重慶農村商業銀行', '3633.HK': '中裕能源', '3690.HK': '美團-W', '3692.HK': '翰森製藥', '3738.HK': '阜博集團',
     '3800.HK': '協鑫科技', '3868.HK': '信義能源', '3888.HK': '金山軟件', '3899.HK': '中集安瑞科', '3900.HK': '綠城中國',
-    '3908.HK': '中金公司', '3933.HK': '聯邦制藥', '3958.HK': '東方證券', '3968.HK': '招商銀行', '3983.HK': '中海石油化學', 
+    '3908.HK': '中金公司', '3933.HK': '聯邦制藥', '3958.HK': '東方證券', '3968.HK': '招商銀行', '3983.HK': '中海石油化學',
     '3988.HK': '中國銀行', '3990.HK': '美的置業', '3993.HK': '洛陽鉬業', '6030.HK': '中信証券', '6098.HK': '碧桂園服務',
-    '6110.HK': '滔搏', '6160.HK': '百濟神州', '6618.HK': '京東健康', '6690.HK': '海爾智家', '6806.HK': '申萬宏源', 
+    '6110.HK': '滔搏', '6160.HK': '百濟神州', '6618.HK': '京東健康', '6690.HK': '海爾智家', '6806.HK': '申萬宏源',
     '6837.HK': '海通證券', '6862.HK': '海底撈', '6865.HK': '福萊特玻璃', '6881.HK': '中國銀河', '6969.HK': '思摩爾國際',
-    '9618.HK': '京東集團-SW', '9633.HK': '農夫山泉', '9866.HK': '蔚來-SW', '9868.HK': '小鵬汽車-W', '9888.HK': '百度集團-SW', 
+    '9618.HK': '京東集團-SW', '9633.HK': '農夫山泉', '9866.HK': '蔚來-SW', '9868.HK': '小鵬汽車-W', '9888.HK': '百度集團-SW',
     '9922.HK': '九毛九', '9959.HK': '聯易融科技-W', '9988.HK': '阿里巴巴-SW', '9992.HK': '泡泡瑪特', '9999.HK': '網易-S'
 }
 
 print(f"⏳ 1/4 啟動下載 Agent 獲取大數據 (涵蓋近 5 年區間)...")
 
-hsi_df = yf.download(["2800.HK", "^HSI", "^VIX"], start=START_DATE, end=END_DATE, progress=False, threads=True) 
+hsi_df = yf.download(["2800.HK", "^HSI", "^VIX"], start=START_DATE, end=END_DATE, progress=False, threads=True)
 hsi_c = hsi_df['Close']['2800.HK'].ffill()
 if hsi_c.isna().all(): hsi_c = hsi_df['Close']['^HSI'].ffill()
 vix_c = hsi_df['Close']['^VIX'].ffill()
@@ -154,16 +154,16 @@ def get_fundamentals(ticker):
         div = round(raw_div, 2) if raw_div > 1 else round(raw_div * 100, 2)
         earn_growth = tk_info.get('earningsGrowth') or tk_info.get('revenueGrowth') or 0
         earn_pct = round(earn_growth * 100, 2)
-        
+
         if earn_pct >= 15: earn_label = f"強勁 (+{earn_pct}%)"
         elif earn_pct > 0: earn_label = f"復甦 (+{earn_pct}%)"
         elif earn_pct < 0: earn_label = f"衰退 ({earn_pct}%)"
         else: earn_label = "無"
-        
+
         pe = round(tk_info.get('trailingPE'), 2) if tk_info.get('trailingPE') else "N/A"
         pb = round(tk_info.get('priceToBook'), 2) if tk_info.get('priceToBook') else "N/A"
         roe = round(tk_info.get('returnOnEquity') * 100, 2) if tk_info.get('returnOnEquity') else "N/A"
-        
+
         fin_cache[ticker] = {"div": div, "earn_growth_val": earn_pct, "earn_label": earn_label, "pe": pe, "pb": pb, "roe": roe}
     except:
         fin_cache[ticker] = {"div": 0, "earn_growth_val": 0, "earn_label": "無", "pe": "N/A", "pb": "N/A", "roe": "N/A"}
@@ -181,14 +181,14 @@ def clean_nans(obj):
 
 print("⏳ 3/4 啟動 5年期 雙引擎動態回溯 (套用 V7.0 時間停損與 VCP 濾網)...")
 
-lookback_bars = 252 * 5 
+lookback_bars = 252 * 5
 start_idx = len(closes) - lookback_bars
-if start_idx < 250: start_idx = 250 
+if start_idx < 250: start_idx = 250
 
 active_trades = {}
 completed_trades = []
 pnl_history = []
-entry_months = set() 
+entry_months = set()
 
 for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
     current_date = closes.index[i]
@@ -199,12 +199,12 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
     cur_hsi_200 = hsi_200ma.iloc[i]
     if pd.isna(cur_hsi) or pd.isna(cur_hsi_200): continue
     is_bull = cur_hsi > cur_hsi_200
-    
+
     cur_breadth = breadth_pct.iloc[i]
     cur_vix = vix_c.iloc[i] if not pd.isna(vix_c.iloc[i]) else 18.0
 
     tickers_to_remove = []
-    
+
     # ==========================================
     # 1. 結算與出場邏輯 (Exit Logic)
     # ==========================================
@@ -214,11 +214,11 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
         l = lows[ticker].iloc[i]
         c = closes[ticker].iloc[i]
         cur_ma20 = sma20_all[ticker].iloc[i]
-        
+
         if pd.isna(h) or pd.isna(l) or pd.isna(c): continue
-            
+
         is_closed = False
-        
+
         # 📌 全局止盈 (TP)
         if h >= trade['TP']:
             trade['Exit_Date'] = date_str
@@ -233,10 +233,10 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
             tickers_to_remove.append(ticker)
             is_closed = True
             continue
-            
+
         # 🟢 V7.0 海龜突破 (VCP 優化) 出場邏輯
         if trade['Type'] == "海龜突破 (VCP 優化)":
-            
+
             # 🛑 1. 七日時間停損 (防死魚機制)
             if trade['Bars_Held'] >= 7 and c <= trade['Entry_Price']:
                 trade['Exit_Date'] = date_str
@@ -250,13 +250,13 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
                 pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
                 tickers_to_remove.append(ticker)
                 is_closed = True
-                
+
             # 🛑 2. MA20 動態停損 (跌破 20日均線)
             elif not pd.isna(cur_ma20) and c < cur_ma20:
                 trade['Exit_Date'] = date_str
                 trade['Exit_Idx'] = i
                 trade['Exit_Price'] = c
-                trade['Status'] = 'Loss' if c < trade['Entry_Price'] else 'Win'
+                trade['Status'] = 'Win' if c >= trade['Entry_Price'] else 'Loss'
                 trade['Exit_Reason'] = 'MA20_SL'
                 trade['PnL_%'] = round(((c - trade['Entry_Price']) / trade['Entry_Price']) * 100, 2)
                 trade['Hold_Days'] = (current_date - pd.to_datetime(trade['Entry_Date'])).days
@@ -264,7 +264,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
                 pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
                 tickers_to_remove.append(ticker)
                 is_closed = True
-                
+
             # 🛑 3. 7% 實體硬止損 (Hard SL)
             elif l <= trade['SL']:
                 trade['Exit_Date'] = date_str
@@ -278,7 +278,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
                 pnl_history.append({"Date": date_str, "Type": trade['Type'], "PnL": trade['PnL_%']})
                 tickers_to_remove.append(ticker)
                 is_closed = True
-                    
+
         # 🔴 RSI 超跌抄底 (逆勢) 出場邏輯 (保留原版設定)
         elif trade['Type'] == "RSI 超跌抄底 (逆勢)":
             if l <= trade['SL']:
@@ -320,7 +320,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
     for ticker in tickers_to_remove:
         del active_trades[ticker]
 
-    if cur_breadth > 60: continue 
+    if cur_breadth > 60: continue
 
     # ==========================================
     # 2. 進場邏輯 (Entry Logic)
@@ -328,7 +328,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
     for ticker in closes.columns:
         if ticker in active_trades: continue
         c = closes[ticker].iloc[i]
-        
+
         if pd.isna(c) or c < 3.0: continue
 
         signal_type = None
@@ -349,7 +349,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
                     if fin['earn_growth_val'] >= 0:
                         signal_type = "海龜突破 (VCP 優化)"
                         trade_pool = "VCP 震盪池"
-                        sl_price = c * 0.93  # 🌟 緊縮停損：-7% 
+                        sl_price = c * 0.93  # 🌟 緊縮停損：-7%
                         tp_price = c * 1.30  # 🌟 停利目標：+30%
 
         # 🔴 RSI 抄底逆勢保留
@@ -359,7 +359,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
                 lbb = lower_bb_all[ticker].iloc[i]
                 c_h250 = high_250[ticker].iloc[i]
                 c_200ma = stock_200ma[ticker].iloc[i]
-                
+
                 if not pd.isna(rsi_val) and not pd.isna(lbb) and not pd.isna(c_h250) and not pd.isna(c_200ma):
                     if rsi_val < 18 and c < lbb and c > (c_h250 * 0.40):
                         bias_200 = (c - c_200ma) / c_200ma
@@ -372,7 +372,7 @@ for i in tqdm(range(start_idx, len(closes)), desc="回測進度"):
                                 tp_price = c * 1.20
 
         if signal_type:
-            entry_months.add(month_str) 
+            entry_months.add(month_str)
             active_trades[ticker] = {
                 "Trade_ID": f"{ticker}_{date_str}",
                 "Ticker": ticker,
@@ -410,28 +410,28 @@ if not pnl_df.empty:
     pnl_df['Date'] = pd.to_datetime(pnl_df['Date'])
     pnl_df = pnl_df.sort_values('Date').reset_index(drop=True)
     pnl_df['Cum_Total'] = pnl_df['PnL'].cumsum()
-    
+
     t_df = pnl_df[pnl_df['Type'].str.contains('海龜突破')].copy()
     t_df['Cum_Turtle'] = t_df['PnL'].cumsum()
-    
+
     r_df = pnl_df[pnl_df['Type'].str.contains('RSI 超跌抄底')].copy()
     r_df['Cum_RSI'] = r_df['PnL'].cumsum()
-    
+
     unique_dates = sorted(pnl_df['Date'].unique())
     dates_str = [d.strftime('%Y-%m-%d') for d in unique_dates]
-    
+
     curr_t = 0
     curr_r = 0
     for d in unique_dates:
         t_match = t_df[t_df['Date'] <= d]
         if not t_match.empty: curr_t = t_match.iloc[-1]['Cum_Turtle']
-        
+
         r_match = r_df[r_df['Date'] <= d]
         if not r_match.empty: curr_r = r_match.iloc[-1]['Cum_RSI']
-        
+
         pnl_json["turtle"].append(round(curr_t, 2))
         pnl_json["rsi"].append(round(curr_r, 2))
-        
+
     pnl_json["dates"] = dates_str
     pnl_by_date = pnl_df.groupby('Date')['PnL'].sum().cumsum()
     pnl_json["total"] = [round(pnl_by_date[d], 2) for d in unique_dates]
@@ -448,15 +448,15 @@ for t in all_5y_trades:
     t['current_price'] = round(float(closes[t['Ticker']].iloc[-1]), 2)
     if t['Status'] == 'Active':
         t['Hold_Days'] = (today_dt - pd.to_datetime(t['Entry_Date'])).days
-        
+
     entry_idx = t['Entry_Idx']
     exit_idx_to_use = t['Exit_Idx'] if t['Status'] != 'Active' else len(closes) - 1
-    
+
     start_chart_idx = max(0, entry_idx - 375)
     end_chart_idx = min(len(closes), exit_idx_to_use + 40)
     if t['Status'] == 'Active': end_chart_idx = len(closes)
     if end_chart_idx - start_chart_idx < 375: start_chart_idx = max(0, end_chart_idx - 375)
-    
+
     ticker = t['Ticker']
     t['chart_dates'] = closes.index[start_chart_idx:end_chart_idx].strftime('%Y-%m-%d').tolist()
     t['chart_prices'] = safe_list(closes[ticker].iloc[start_chart_idx:end_chart_idx])
@@ -480,24 +480,24 @@ for row in all_5y_trades:
     is_turtle = "海龜" in row['Type']
     strat_key = "Turtle" if is_turtle else "RSI"
     type_color = "text-green-400" if is_turtle else "text-red-400"
-    
+
     pool_badge = f"<br><span class='text-[10px] px-1.5 py-0.5 rounded bg-slate-700 text-slate-300'>{row.get('Pool', '-')}</span>"
     type_display = f"<span class='{type_color}'>{row['Type']}</span>{pool_badge}"
 
     exit_date_str = ""
     pnl_str = "-"
-    
+
     if row['Status'] in ['Win', 'Loss']:
         exit_date_str = f"<br><span class='text-[10px] text-slate-400'>於 {row['Exit_Date']} 結算</span>"
         pnl_val = row['PnL_%']
         pnl_color = "text-green-400" if pnl_val > 0 else "text-red-400"
         sign = "+" if pnl_val > 0 else ""
         pnl_str = f"<span class='{pnl_color} font-bold'>{sign}{pnl_val:.2f}%</span>"
-        
+
         stats[strat_key]['closed'] += 1
         stats[strat_key]['compounded'] *= (1 + (pnl_val / 100))
-        
-        if row['Exit_Reason'] == 'TP': 
+
+        if row['Exit_Reason'] == 'TP':
             stats[strat_key]['wins'] += 1
             global_counters["TP"] += 1
         elif row['Exit_Reason'] == 'MA20_SL':
@@ -512,9 +512,9 @@ for row in all_5y_trades:
         elif row['Exit_Reason'] == 'SL':
             stats[strat_key]['sl'] += 1
             global_counters["Hard_SL"] += 1
-            
+
         hold_str = f"{row['Hold_Days']}天"
-        
+
     else:
         unrealized_pnl = ((row['current_price'] - row['Entry_Price']) / row['Entry_Price']) * 100
         pnl_color = "text-green-400" if unrealized_pnl > 0 else "text-red-400"
@@ -523,26 +523,28 @@ for row in all_5y_trades:
         hold_str = f"<span class='text-yellow-400 font-bold'>{row['Hold_Days']}天</span>"
         global_counters["Active"] += 1
 
-    if row['Exit_Reason'] == 'TP':
-        status_badge = f'<span class="px-2 py-1 bg-green-900/50 text-green-400 border border-green-700 rounded text-xs font-bold">Win</span>{exit_date_str}'
+    # ================= 修復後的狀態標籤區塊 =================
+    if row['Status'] == 'Active':
+        status_badge = '<span class="px-2 py-1 bg-yellow-900/50 text-yellow-400 border border-yellow-700 rounded text-xs font-bold animate-pulse">Active</span>'
+    elif row['Exit_Reason'] == 'TP':
+        status_badge = f'<span class="px-2 py-1 bg-green-900/50 text-green-400 border border-green-700 rounded text-xs font-bold">Win (TP)</span>{exit_date_str}'
     elif row['Exit_Reason'] == 'Max_Hold':
         clr = "green" if row['Status'] == 'Win' else "red"
         status_badge = f'<span class="px-2 py-1 bg-{clr}-900/50 text-{clr}-400 border border-{clr}-700 rounded text-xs font-bold" title="達到最大持有天數">20D Exit</span>{exit_date_str}'
-    elif row['Status'] == 'Loss':
-        if row.get('Exit_Reason') == 'Time_SL':
-            status_badge = f'<span class="px-2 py-1 bg-orange-900/50 text-orange-400 border border-orange-700 rounded text-xs font-bold" title="時間停損機制">Time SL</span>{exit_date_str}'
-        elif row.get('Exit_Reason') == 'MA20_SL':
-            status_badge = f'<span class="px-2 py-1 bg-purple-900/50 text-purple-400 border border-purple-700 rounded text-xs font-bold" title="跌破 MA20 動態停損">MA20 SL</span>{exit_date_str}'
-        else:
-            status_badge = f'<span class="px-2 py-1 bg-red-900/50 text-red-400 border border-red-700 rounded text-xs font-bold">Loss</span>{exit_date_str}'
+    elif row['Exit_Reason'] == 'MA20_SL':
+        clr = "green" if row['Status'] == 'Win' else "purple"
+        status_badge = f'<span class="px-2 py-1 bg-{clr}-900/50 text-{clr}-400 border border-{clr}-700 rounded text-xs font-bold" title="跌破 MA20 動態停損">MA20 Exit</span>{exit_date_str}'
+    elif row['Exit_Reason'] == 'Time_SL':
+        status_badge = f'<span class="px-2 py-1 bg-orange-900/50 text-orange-400 border border-orange-700 rounded text-xs font-bold" title="時間防死魚機制">Time SL</span>{exit_date_str}'
     else:
-        status_badge = '<span class="px-2 py-1 bg-yellow-900/50 text-yellow-400 border border-yellow-700 rounded text-xs font-bold animate-pulse">Active</span>'
+        status_badge = f'<span class="px-2 py-1 bg-red-900/50 text-red-400 border border-red-700 rounded text-xs font-bold">Loss (SL)</span>{exit_date_str}'
+    # =========================================================
 
     curr_p_color = "text-green-400 font-bold" if row['current_price'] > row['Entry_Price'] else "text-red-400 font-bold" if row['current_price'] < row['Entry_Price'] else "text-slate-300"
 
     html_5y_rows += f"""
-        <tr class="trade-row border-b border-slate-800 hover:bg-slate-700/50 transition cursor-pointer" 
-            data-trade-id="{row['Trade_ID']}" 
+        <tr class="trade-row border-b border-slate-800 hover:bg-slate-700/50 transition cursor-pointer"
+            data-trade-id="{row['Trade_ID']}"
             onclick="selectRow(this); loadChart('{row['Trade_ID']}', 'myChart5y')">
             <td class="p-3 text-blue-300 font-bold">{row['Entry_Date']}</td>
             <td class="p-3 font-bold text-white">{row['Ticker']}<br><span class="text-xs text-slate-400 font-normal">{row['Stock_Name']}</span></td>
@@ -653,7 +655,7 @@ else:
         day_color = "text-yellow-400"
         div_color = "text-green-400 font-black" if sig['div_yield'] >= 6 else "text-slate-300"
         earn_color = "text-green-400" if "+" in sig['earn_label'] else "text-red-400" if "衰退" in sig['earn_label'] else "text-slate-400"
-        
+
         # Req 2: 即時價格與損益計算
         unrealized_pnl = ((sig['current_price'] - sig['Entry_Price']) / sig['Entry_Price']) * 100
         pnl_clr = "text-green-400" if unrealized_pnl > 0 else "text-red-400"
@@ -667,7 +669,7 @@ else:
                         <div class="text-xs font-bold {day_color} mb-3 border-b border-slate-700 pb-2">
                             {day_text} | 進場 RSI: {sig['RSI']} | 進場日: {sig['Entry_Date']}
                         </div>
-                        
+
                         <div class="bg-slate-800 p-2 rounded mb-3">
                             <div class="text-xs text-slate-400 mb-1 border-b border-slate-600 pb-1 text-center">觸發時財務快照</div>
                             <div class="grid grid-cols-2 gap-2 mb-2">
@@ -705,7 +707,7 @@ html_content += f"""
         </div>
 
         <div id="tab-5y" class="tab-content hidden">
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div class="card p-4 border-l-4 border-green-500 shadow relative">
                     <div class="flex justify-between items-start mb-2">
@@ -716,7 +718,7 @@ html_content += f"""
                         </div>
                     </div>
                     <div class="text-sm text-slate-400">近 5 年總平倉數: <span class="text-white font-bold">{t_closed}</span> 筆</div>
-                    
+
                     <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3 border-t border-slate-700 pt-3">
                         <div><span class="text-slate-400 block mb-1">達標 (Win)</span><span class="font-bold text-green-400">{t_win_rate:.1f}%</span></div>
                         <div><span class="text-slate-400 block mb-1">MA20 停損</span><span class="font-bold text-purple-400">{t_ma20_rate:.1f}%</span></div>
@@ -724,7 +726,7 @@ html_content += f"""
                         <div><span class="text-slate-400 block mb-1">7% 硬止損</span><span class="font-bold text-red-400">{t_sl_rate:.1f}%</span></div>
                     </div>
                 </div>
-                
+
                 <div class="card p-4 border-l-4 border-red-500 shadow relative">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-lg font-bold text-white">📉 RSI 抄底 (逆勢版)</h3>
@@ -734,7 +736,7 @@ html_content += f"""
                         </div>
                     </div>
                     <div class="text-sm text-slate-400">近 5 年總平倉數: <span class="text-white font-bold">{r_closed}</span> 筆</div>
-                    
+
                     <div class="grid grid-cols-4 gap-2 text-center text-xs mt-3 border-t border-slate-700 pt-3">
                         <div><span class="text-slate-400 block mb-1">達標 (Win)</span><span class="font-bold text-green-400">{r_win_rate:.1f}%</span></div>
                         <div><span class="text-slate-400 block mb-1">10天未發動</span><span class="font-bold text-orange-400">{r_time_rate:.1f}%</span></div>
@@ -781,7 +783,7 @@ html_content += f"""
                             <option value="">所有狀態</option>
                             <option value="Win">🟢 達標 (Win)</option>
                             <option value="Loss">🔴 止損 (Loss)</option>
-                            <option value="MA20 SL">🟣 MA20 停損</option>
+                            <option value="MA20 Exit">🟣 MA20 停損</option>
                             <option value="Time SL">🟠 時間認錯 (Time SL)</option>
                             <option value="20D Exit">⏳ 20天極限出場</option>
                         </select>
@@ -825,17 +827,17 @@ html_content += f"""
                 <div class="h-[500px] w-full bg-[#0f172a] rounded p-2 border border-slate-700 mt-4">
                     <canvas id="pnlChart" class="w-full h-full"></canvas>
                 </div>
-                
+
                 <div class="mt-6 bg-slate-800 p-5 rounded-lg text-sm text-slate-300 leading-relaxed border border-slate-600">
                     <h3 class="text-lg font-bold text-yellow-400 mb-2">💡 資金曲線計算原理 (Calculation Methodology)</h3>
                     <p class="mb-3">為了最誠實且客觀地評估系統的「避震能力」與「真實期望值」，本圖表採用的是<strong>【固定資金比例 (Fixed Allocation) 線性累加法】</strong>，而非傳統的複利計算。</p>
-                    
+
                     <h4 class="font-bold text-white mt-4 mb-1">🔍 為什麼不使用複利繪圖？</h4>
                     <p class="mb-3 pl-4 border-l-2 border-red-500">在長達 5 年、高達數百筆的量化回測中，如果使用複利計算，早期的獲利會讓後期的資金基數無限放大，從而產生極嚴重的「指數型失真 (Exponential Distortion)」。這會導致近期的微小回撤在圖表上看起來像大崩盤，掩蓋了策略真實的穩定度。</p>
-                    
+
                     <h4 class="font-bold text-white mt-4 mb-1">📐 圖表實際演算法</h4>
                     <p class="mb-3 pl-4 border-l-2 border-green-500">假設每次交易系統皆嚴格分配「1 單位固定本金」進場。圖表上的 Y 軸即為每一筆交易「原始百分比淨利」的單純加總 (Linear Summation)。例如：第一筆賺 +30%，第二筆賠 -10%，Y 軸就會顯示 +20%。</p>
-                    
+
                     <ul class="list-disc pl-5 mt-4 space-y-2 font-bold text-white">
                         <li><span class="text-blue-400">藍線 (全局系統)</span>：展示雙引擎完美互補，牛市衝刺、熊市防禦的總體平穩度。</li>
                         <li><span class="text-green-400">綠線 (海龜順勢)</span>：在 VIX 安定且大盤站上年線時，創造極限爆發力。</li>
@@ -875,13 +877,13 @@ html_content += f"""
             if (visibleRows.length === 0) return;
 
             if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {{
-                e.preventDefault(); 
+                e.preventDefault();
                 currentRowIndex = (currentRowIndex + 1) % visibleRows.length;
                 let nextRow = visibleRows[currentRowIndex];
                 selectRow(nextRow);
                 nextRow.scrollIntoView({{ block: 'center', behavior: 'smooth' }});
                 loadChart(nextRow.getAttribute('data-trade-id'), 'myChart5y');
-            }} 
+            }}
             else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {{
                 e.preventDefault();
                 currentRowIndex = (currentRowIndex - 1 + visibleRows.length) % visibleRows.length;
@@ -896,7 +898,7 @@ html_content += f"""
             document.querySelectorAll('.tab-content').forEach(el => {{
                 el.classList.add('hidden');
             }});
-            
+
             document.querySelectorAll('.tab-btn').forEach(btn => {{
                 btn.classList.remove('tab-active');
                 btn.classList.add('tab-inactive');
@@ -905,19 +907,19 @@ html_content += f"""
             document.getElementById(tabId).classList.remove('hidden');
             document.getElementById('btn-' + tabId.split('-')[1]).classList.remove('tab-inactive');
             document.getElementById('btn-' + tabId.split('-')[1]).classList.add('tab-active');
-            
+
             if(tabId === 'tab-pnl') renderPnLChart();
         }}
 
         function filterTable() {{
-            currentRowIndex = -1; 
+            currentRowIndex = -1;
             let input = document.getElementById("searchInput").value.toUpperCase();
             let statusFilter = document.getElementById("filterStatus").value;
             let stratFilter = document.getElementById("filterStrategy").value;
             let monthFilter = document.getElementById("filterMonth").value;
-            
+
             let tr = document.getElementById("logTableBody").getElementsByTagName("tr");
-            
+
             let visiblePnL = 1.0;
             let closedCount = 0;
             let isFiltering = (input !== "" || statusFilter !== "" || stratFilter !== "" || monthFilter !== "");
@@ -927,12 +929,12 @@ html_content += f"""
                 let rowStatus = tr[i].cells[10].innerText;
                 let rowStrat = tr[i].cells[2].innerText;
                 let rowEntryDate = tr[i].cells[0].innerText;
-                
+
                 let matchSearch = textContent.indexOf(input) > -1;
                 let matchStatus = statusFilter === "" || rowStatus.includes(statusFilter);
                 let matchStrat = stratFilter === "" || rowStrat.includes(stratFilter);
                 let matchMonth = monthFilter === "" || rowEntryDate.startsWith(monthFilter);
-                
+
                 if (matchSearch && matchStatus && matchStrat && matchMonth) {{
                     tr[i].style.display = "";
                     if(rowStatus.includes('Win') || rowStatus.includes('Loss') || rowStatus.includes('Exit') || rowStatus.includes('SL')) {{
@@ -944,7 +946,7 @@ html_content += f"""
                     tr[i].style.display = "none";
                 }}
             }}
-            
+
             let panel = document.getElementById('filteredSummaryPanel');
             if (isFiltering && closedCount > 0) {{
                 panel.classList.remove('hidden');
@@ -959,17 +961,17 @@ html_content += f"""
         }}
 
         function sortTable(n) {{
-            currentRowIndex = -1; 
+            currentRowIndex = -1;
             let table = document.getElementById("logTable");
             let tbody = document.getElementById("logTableBody");
             let rows = Array.from(tbody.rows);
             let asc = table.getAttribute('data-sort-dir') === 'asc';
             table.setAttribute('data-sort-dir', asc ? 'desc' : 'asc');
-            
+
             rows.sort((r1, r2) => {{
                 let val1 = r1.cells[n].innerText.replace(/[%$,+\-天浮動]/g, '').trim();
                 let val2 = r2.cells[n].innerText.replace(/[%$,+\-天浮動]/g, '').trim();
-                
+
                 if (n === 9) {{
                     val1 = r1.cells[n].getAttribute('data-pnl') || "0";
                     val2 = r2.cells[n].getAttribute('data-pnl') || "0";
@@ -983,7 +985,7 @@ html_content += f"""
                 }}
                 return asc ? val1.localeCompare(val2) : val2.localeCompare(val1);
             }});
-            
+
             rows.forEach(r => tbody.appendChild(r));
         }}
 
@@ -1003,7 +1005,7 @@ html_content += f"""
 
                 const titleEl = document.getElementById(titleId);
                 if(titleEl) titleEl.innerHTML = sig.Ticker + " " + sig.Stock_Name + " <span class='text-sm text-slate-400 ml-2'>(" + sig.Type + ")</span>";
-                
+
                 const tvLink = document.getElementById(tvLinkId);
                 if(tvLink) {{
                     tvLink.href = `https://www.tradingview.com/chart/?symbol=${{sig.TV_Ticker}}`;
@@ -1018,12 +1020,12 @@ html_content += f"""
 
                 const entryIdx = sig.chart_dates.indexOf(sig.Entry_Date);
                 const exitIdxInArray = sig.Exit_Date !== "-" ? sig.chart_dates.indexOf(sig.Exit_Date) : sig.chart_dates.length - 1;
-                
+
                 const slData = sig.chart_dates.map((d, idx) => (entryIdx !== -1 && idx >= entryIdx && idx <= exitIdxInArray) ? sig.SL : null);
                 const tpData = sig.chart_dates.map((d, idx) => (entryIdx !== -1 && idx >= entryIdx && idx <= exitIdxInArray) ? sig.TP : null);
                 const entryData = sig.chart_dates.map((d, idx) => (idx === entryIdx) ? sig.Entry_Price : null);
                 const exitData = sig.chart_dates.map((d, idx) => (idx === exitIdxInArray && sig.Status !== 'Active') ? sig.Exit_Price : null);
-                
+
                 const displayLabels = sig.chart_dates.map(d => d.substring(5));
 
                 let newChart = new Chart(ctx, {{
@@ -1117,8 +1119,8 @@ html_content += f"""
         }}
 
         function renderPnLChart() {{
-            if(pnlChartInstance) return; 
-            
+            if(pnlChartInstance) return;
+
             const ctx = document.getElementById('pnlChart').getContext('2d');
             pnlChartInstance = new Chart(ctx, {{
                 type: 'line',
@@ -1173,7 +1175,7 @@ html_content += f"""
             if (recentSigs.length > 0) {{
                 setTimeout(() => loadChart(recentSigs[0].Trade_ID, 'myChartScan'), 200);
             }}
-            
+
             setTimeout(() => {{
                 let firstRow = document.querySelector('#logTableBody tr');
                 if(firstRow) {{
