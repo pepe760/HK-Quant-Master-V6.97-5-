@@ -1006,7 +1006,7 @@ html_content = f"""
 
         <div class="text-center mt-12 mb-4 flex flex-col items-center justify-center">
             <p class="mb-3 font-bold tracking-wider text-slate-300 text-sm">📊 累積訪客數</p>
-            <img src="https://komarev.com/ghpvc/?username=hk-quant-master&label=Views&color=0ea5e9&style=flat" alt="Hits">
+            <img src="https://api.visitorbadge.io/api/visitors?path=hk-quant-master-dashboard-v10&label=Views&labelColor=%231e293b&countColor=%232563eb&style=flat" alt="Visitors" style="transform: scale(1.2);">
         </div>
 
     </div>
